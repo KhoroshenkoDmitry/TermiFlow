@@ -12,30 +12,49 @@ jobs:
         if: github.actor == github.repository_owner
         run: echo "PR opened by repository owner. Skipping check."
 
-      - name: Check PR Assignment
+      - name: Check Issue Assignment
         if: github.actor != github.repository_owner
         uses: actions/github-script@v7
         with:
           script: |
             const pr = context.payload.pull_request;
-            const assignees = pr.assignees;
-            
-            console.log(`PR Author: ${pr.user.login}`);
-            console.log(`Assignees count: ${assignees.length}`);
+            const author = pr.user.login;
+              
+            const body = pr.body || "";
+            const match = body.match(/#(\d+)/);
+              
+            if (!match) {
+              console.log("No linked issue found.");
+              await failPR(`Hello @${author}! Please link a referenced issue (e.g., 'Fixes #81') in your PR description.`);
+              return;
+            }
+              
+            const issueNumber = parseInt(match[1]);
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+              
+            const isAssigned = issue.assignees.some(a => a.login === author);
+              
+            if (!isAssigned) {
+              await failPR(`Hello @${author}, Thank you for your contribution. As per the repository's guidelines, please ensure an issue is discussed and you are assigned to it before opening a pull request. Closing this PR for now.`);
+            } else {
+              console.log(`Assignment verified for @${author} on issue #${issueNumber}.`);
+            }
 
-            // If no one is assigned, comment and close the PR
-            if (assignees.length === 0) {
+            async function failPR(msg) {
               await github.rest.issues.createComment({
                 issue_number: pr.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: "Hello! Thank you for your contribution. As per the repository's guidelines, please ensure an issue is discussed and you are assigned to it before opening a pull request. Closing this PR for now. Feel free to claim an issue properly next time."
+                body: msg
               });
-
               await github.rest.pulls.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pr.number,
                 state: 'closed'
               });
-            }
+            } 
