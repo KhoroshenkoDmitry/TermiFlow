@@ -49,7 +49,7 @@ jobs:
             }
 
             async function failPR(msg) {
-              console.log("Assignment check failed! PR closed.);
+              console.log("Assignment check failed! PR closed.");
               
               await github.rest.issues.createComment({
               owner: context.repo.owner,
