@@ -56,11 +56,4 @@ jobs:
                 pull_number: pr.number,
                 state: 'closed'
               });
-              await github.rest.pulls.update({
-
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pr.number,
-                state: 'closed'
-              });
             } 
