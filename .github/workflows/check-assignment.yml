@@ -49,13 +49,15 @@ jobs:
             }
 
             async function failPR(msg) {
-              await github.rest.issues.createComment({
-                issue_number: pr.number,
+              console.log(msg);
+              await github.rest.pulls.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: msg
+                pull_number: pr.number,
+                state: 'closed'
               });
               await github.rest.pulls.update({
+
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pr.number,
