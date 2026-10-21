@@ -37,7 +37,8 @@ jobs:
           }
               
           const issueNumber = parseInt(match[1]);
-          const { data: issue } = await github.rest.issues.get({
+          const { data: issue } = await github.rest.issues.get
+          ({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issueNumber
