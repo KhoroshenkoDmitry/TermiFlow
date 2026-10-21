@@ -35,10 +35,9 @@ jobs:
             await failPR(`Hello @${author}! Please link a referenced issue (e.g., 'Fixes #81') in your PR description.`);
             return;
           }
-              
+
           const issueNumber = parseInt(match[1]);
-          const { data: issue } = await github.rest.issues.get
-          ({
+          const { data: issue } = await github.rest.issues.get({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issueNumber
