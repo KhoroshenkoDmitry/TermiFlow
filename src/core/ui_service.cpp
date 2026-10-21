@@ -26,7 +26,15 @@ char UIService::getMenuChoice() {
     do {
         std::cout << "Enter your choice: ";
         std::cin >> choiceStr;
-        
+
+        if (std::cin.eof()) {
+            // stdin was closed (e.g. piped input ran out). Treat this the
+            // same as the user explicitly choosing "0: Exit" so the app
+            // shuts down gracefully instead of looping forever on reads
+            // that can never succeed again.
+            return '0';
+        }
+
         if (choiceStr.length() == 1 && isdigit(choiceStr[0])) {
             choice = choiceStr[0];
         } else {

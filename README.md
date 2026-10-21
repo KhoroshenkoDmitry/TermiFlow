@@ -1,4 +1,3 @@
-
 <div align = "center">
 
   <img src = "assets/termiflow_logo.png" alt = "TermiFlow logo">
