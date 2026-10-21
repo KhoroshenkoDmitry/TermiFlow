@@ -37,12 +37,7 @@ jobs:
           }
 
           const issueNumber = parseInt(match[1]);
-          const { data: issue } = await github.rest.issues.get
-          ({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issueNumber
-          });
+          const { data: issue } = await github.rest.issues.get({owner: context.repo.owner, repo: context.repo.repo, issue_number: issueNumber});
               
           const isAssigned = issue.assignees.some(a => a.login === author);
               
@@ -55,19 +50,9 @@ jobs:
           async function failPR(msg) {
             console.log("Assignment check failed! PR closed.");
               
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-              body: msg
-            });
+            await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: pr.number, body: msg});
 
-            await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              state: 'closed'
-            });
+            await github.rest.pulls.update({owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number, state: 'closed'});
           }
 
   build:
