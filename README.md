@@ -233,6 +233,7 @@ A huge thanks to the developers contributing to TermiFlow.
 - [@Adhirajsingh2507](https://github.com/Adhirajsingh2507)
 - [@lesbass](https://github.com/lesbass)
 - [@DanielGavzeMoav-AI](https://github.com/DanielGavzeMoav-AI)
+- [@vovosta](https://github.com/vovosta)
 
 ## Support This Project
 
