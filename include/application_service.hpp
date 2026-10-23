@@ -21,7 +21,7 @@ private:
     void historyInteractive();
     void statsInteractive();
     void cmdHandler();
-    void changeTheme(const std::string& theme);
+    bool changeTheme(const std::string& theme);
     
 public:
     ApplicationService();

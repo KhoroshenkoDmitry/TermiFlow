@@ -8,7 +8,7 @@
 #include <sstream>
 #include <fstream>
 
-void changeTheme(std::string theme);
+bool changeTheme(std::string theme);
 void changeTheme();
 void saveThemeToConfig(const std::string & theme);
 

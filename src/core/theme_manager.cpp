@@ -47,8 +47,9 @@ static void applyAnsiTheme(const std::string& colorCode) {
 }
 #endif
 
-void changeTheme(std::string theme) {
+bool changeTheme(std::string theme) {
     // Apply theme to terminal (business logic only)
+    // Returns false for an unsupported theme so callers can skip saving it
     #ifdef _WIN32
         if (theme == "light") {
             system("cls");
@@ -59,7 +60,8 @@ void changeTheme(std::string theme) {
             system("color 07"); // black background with white text / default theme
         }
         else {
-            throw std::invalid_argument("Invalid theme: " + theme);
+            std::cerr << "Error: Invalid theme!\n";
+            return false;
         }
     #else
         if (theme == "light") {
@@ -70,6 +72,8 @@ void changeTheme(std::string theme) {
         }
         else {
             std::cerr << "Error: Invalid theme!\n";
+            return false;
         }
     #endif
+    return true;
 }

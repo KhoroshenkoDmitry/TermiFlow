@@ -92,14 +92,17 @@ void ApplicationService::cmdHandler() {
     ::cmdHandler();
 }
 
-void ApplicationService::changeTheme(const std::string& theme) {
-    ::changeTheme(theme);
+bool ApplicationService::changeTheme(const std::string& theme) {
+    return ::changeTheme(theme);
 }
 
 void ApplicationService::handleThemeChange() {
     std::string theme = uiService.getThemeInput();
-    changeTheme(theme);
-    
+    // Do not save or report success for an unsupported theme
+    if (!changeTheme(theme)) {
+        return;
+    }
+
     // Save to config
     configService.setValue("user_interface.theme", theme);
     configService.saveConfig();

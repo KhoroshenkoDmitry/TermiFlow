@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include "test_framework.hpp"
+#include "theme_manager.hpp"
 
 // Helper function for theme validation
 bool isValidTheme(const std::string& theme) {
@@ -30,4 +31,12 @@ TEST(Theme_CaseSensitivity) {
     ASSERT_FALSE(checkTheme("Light"));
     ASSERT_FALSE(checkTheme("DARK"));
     ASSERT_TRUE(checkTheme("light"));
+}
+
+// Regression test for #80: an unsupported theme must report failure to the caller
+// so the invalid value is not saved and no success message is shown
+TEST(Theme_ChangeThemeReportsInvalidThemeAsFailure) {
+    ASSERT_FALSE(changeTheme("invalid"));
+    ASSERT_FALSE(changeTheme(""));
+    ASSERT_FALSE(changeTheme("LIGHT"));  // case-sensitive
 }
