@@ -9,8 +9,8 @@
 #include "../../include/shortcuts.hpp"
 #include "../../include/history.hpp"
 #include "../../include/system_stats.hpp"
-
-void cmdHandler() {
+#include "../../include/config_service.hpp"
+void cmdHandler(ConfigService& configService) {
     shortcuts s;
     history h;
     std::string input;
@@ -50,7 +50,11 @@ void cmdHandler() {
         }
         else if (command == "theme") {
             if (tokens.size() >= 2) {
-                changeTheme(tokens[1]);
+                if (changeTheme(tokens[1])) {
+                    configService.setValue("user_interface.theme", tokens[1]);
+                    configService.saveConfig();
+                    std::cout << "Theme saved successfully!" << std::endl;
+                }
             } else {
                 std::cout << "Usage: theme <light/dark>" << std::endl;
             }

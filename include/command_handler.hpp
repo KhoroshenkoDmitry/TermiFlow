@@ -3,9 +3,8 @@
 #ifndef COMMAND_HANDLER_HPP
 #define COMMAND_HANDLER_HPP
 
-#include <string>
-#include <sstream>
+class ConfigService;
 
-void cmdHandler();
+void cmdHandler(ConfigService& configService);
 
 #endif

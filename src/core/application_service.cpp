@@ -89,7 +89,7 @@ void ApplicationService::statsInteractive() {
 }
 
 void ApplicationService::cmdHandler() {
-    ::cmdHandler();
+    ::cmdHandler(configService);
 }
 
 bool ApplicationService::changeTheme(const std::string& theme) {
