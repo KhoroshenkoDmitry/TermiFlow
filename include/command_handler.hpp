@@ -3,8 +3,8 @@
 #ifndef COMMAND_HANDLER_HPP
 #define COMMAND_HANDLER_HPP
 
-class ConfigService;
+class ApplicationService;
 
-void cmdHandler(ConfigService& configService);
+void cmdHandler(ApplicationService& appService);
 
 #endif

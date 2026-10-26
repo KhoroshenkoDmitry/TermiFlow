@@ -35,6 +35,8 @@ public:
     // Utility
     bool shouldApplyAutoTheme();
     std::string getCurrentTheme();
+
+    bool applyAndSaveTheme(const std::string& theme);
 };
 
 #endif

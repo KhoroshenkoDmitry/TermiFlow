@@ -5,12 +5,11 @@
 #include <vector>
 #include "../../include/command_handler.hpp"
 #include "../../include/launch.hpp"
-#include "../../include/theme_manager.hpp"
 #include "../../include/shortcuts.hpp"
 #include "../../include/history.hpp"
 #include "../../include/system_stats.hpp"
-#include "../../include/config_service.hpp"
-void cmdHandler(ConfigService& configService) {
+#include "../../include/application_service.hpp"
+void cmdHandler(ApplicationService& appService) {
     shortcuts s;
     history h;
     std::string input;
@@ -50,9 +49,7 @@ void cmdHandler(ConfigService& configService) {
         }
         else if (command == "theme") {
             if (tokens.size() >= 2) {
-                if (changeTheme(tokens[1])) {
-                    configService.setValue("user_interface.theme", tokens[1]);
-                    configService.saveConfig();
+                if (appService.applyAndSaveTheme(tokens[1])) {
                     std::cout << "Theme saved successfully!" << std::endl;
                 }
             } else {
