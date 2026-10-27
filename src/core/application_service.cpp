@@ -89,7 +89,7 @@ void ApplicationService::statsInteractive() {
 }
 
 void ApplicationService::cmdHandler() {
-    ::cmdHandler();
+    ::cmdHandler(*this);
 }
 
 bool ApplicationService::changeTheme(const std::string& theme) {
@@ -98,20 +98,27 @@ bool ApplicationService::changeTheme(const std::string& theme) {
 
 void ApplicationService::handleThemeChange() {
     std::string theme = uiService.getThemeInput();
-    // Do not save or report success for an unsupported theme
-    if (!changeTheme(theme)) {
+
+    if (!applyAndSaveTheme(theme)) {
         return;
     }
 
-    // Save to config
-    configService.setValue("user_interface.theme", theme);
-    configService.saveConfig();
-    
     uiService.displaySuccess("Theme changed successfully!");
 }
 
 bool ApplicationService::shouldApplyAutoTheme() {
     return configService.getValue("behavior.auto_apply_theme", "true") == "true";
+}
+
+bool ApplicationService::applyAndSaveTheme(const std::string& theme) {
+    if (!changeTheme(theme)) {
+        return false;
+    }
+
+    configService.setValue("user_interface.theme", theme);
+    configService.saveConfig();
+
+    return true;
 }
 
 std::string ApplicationService::getCurrentTheme() {
