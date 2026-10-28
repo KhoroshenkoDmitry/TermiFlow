@@ -32,9 +32,9 @@ std::string SystemStats::getMemoryUsage() {
     struct sysinfo info;
     sysinfo(&info);
     
-    long long total = info.totalram / (1024 * 1024);
-    long long used = (info.totalram - info.freeram) / (1024 * 1024);
-    
+    long long total = static_cast<long long>(info.totalram) * info.mem_unit / (1024 * 1024);
+    long long used = static_cast<long long>(info.totalram - info.freeram) * info.mem_unit / (1024 * 1024);
+
     std::ostringstream out;
     out << "Memory: " << used << " / " << total << " MB\t [" << (used/float(total))*100 << "% ]";
     return out.str();
